@@ -1,12 +1,10 @@
-<div class="alert alert-info"><strong>{remaining_tasks}</strong> tasks are left to do!</div>
-
+<h3>Tasks by Priority</h3>
 <table class="table">
     <tr>
         <th>Id</th>
         <th>Task</th>
         <th>Priority</th>
     </tr>
-
     {display_tasks}
     <tr>
         <td>{id}</td>
