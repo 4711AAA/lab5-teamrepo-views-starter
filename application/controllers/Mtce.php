@@ -20,7 +20,8 @@ class Mtce extends Application
     // Show a single page of todo items
     private function show_page($tasks)
     {
-        $this->data['pagetitle'] = 'TODO Maintenance List';
+        $role = $this->session->userdata('userrole');
+        $this->data['pagetitle'] = 'TODO List Maintenance ('. $role . ')';
 
         // build the task presentation output
         $result = '';
