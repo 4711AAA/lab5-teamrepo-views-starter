@@ -3,38 +3,20 @@
 class Task extends Entity
 {
     protected $id;
-    protected $task;
-    protected $priority;
-    protected $size;
-    protected $group;
+    public $task;
+    public $priority;
+    public $size;
+    public $group;
     protected $deadline;
     protected $status;
     protected $flag;
-
-    // insist that an ID be present and be a positive integer
-    public function setId($value) {
-        if (empty($value)) {
-            throw new Exception('ID cannot be empty');
-        }
-        if (!is_numeric($value)) {
-            throw new Exception('ID must be a number');
-        }
-        if (!is_int($value)) {
-            throw new Exception('ID must be an integer');
-        }
-        if ($value < 1) {
-            throw new Exception('ID must be a positive number');
-        }
-        $this->id = $value;
-        return $this;
-    }
 
     // insist that a task name be present, is alphanumeric + spaces, and a max length 64 characters
     public function setTask($value) {
         if (empty($value)) {
             throw new Exception('Task name cannot be empty');
         }
-        if (ctype_alnum(str_replace(array(' '), '', $value ))) {
+        if (!ctype_alnum(str_replace(' ', '', $value))) {
             throw new Exception('Task name must consist of alphanumerics and spaces');
         }
         if (strlen($value) > 64) {
