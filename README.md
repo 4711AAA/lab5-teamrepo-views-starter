@@ -1,3 +1,5 @@
-# Lab 5 and 6 ToDo List
+# Lab 7 ToDo List - Unit Testing [![Build Status](https://travis-ci.org/4711AAA/lab7-teamrepo-unittests.svg?branch=develop)](https://travis-ci.org/4711AAA/lab7-teamrepo-unittests)
 
-Comp 4711 - 4S - Lab 5 & 6 ToDo List website
+Comp 4711 - Lab 7 ToDo List website
+
+PHP Unit Testing lab
