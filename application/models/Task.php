@@ -3,10 +3,10 @@
 class Task extends Entity
 {
     protected $id;
-    public $task;
-    public $priority;
-    public $size;
-    public $group;
+    protected $task;
+    protected $priority;
+    protected $size;
+    protected $group;
     protected $deadline;
     protected $status;
     protected $flag;
@@ -26,7 +26,7 @@ class Task extends Entity
         return $this;
     }
 
-    // insist that a priority level be present and be a number between 1 and 3
+    // insist that a priority level be present and be a integer between 1 and 3
     public function setPriority($value) {
         if (empty($value)) {
             throw new Exception('Priority cannot be empty');
@@ -34,14 +34,19 @@ class Task extends Entity
         if (!is_numeric($value)) {
             throw new Exception('Priority must be a number');
         }
-        if ($value < 1 || $value > 3) {
-            throw new Exception('Priority must be a number between 1 and 3');
+        if (!is_int($value)) {
+            throw new Exception('Priority must be an integer between 1 and 3');
         }
+        if ($value < 1 || $value > 3) {
+            throw new Exception('Priority must be an integer between 1 and 3');
+        }
+
         $this->priority = $value;
+
         return $this;
     }
 
-    // insist that the task size be present and be a number between 1 and 3
+    // insist that the task size be present and be a integer between 1 and 3
     public function setSize($value) {
         if (empty($value)) {
             throw new Exception('Size cannot be empty');
@@ -49,14 +54,19 @@ class Task extends Entity
         if (!is_numeric($value)) {
             throw new Exception('Size must be a number');
         }
+        if (!is_int($value)) {
+            throw new Exception('Size must be an integer between 1 and 3');
+        }
         if ($value < 1 || $value > 3) {
             throw new Exception('Size must be a number between 1 and 3');
         }
+
         $this->size = $value;
+
         return $this;
     }
 
-    // insist that the group be present and be a number between 1 and 4
+    // insist that the group be present and be an integer between 1 and 4
     public function setGroup($value) {
         if (empty($value)) {
             throw new Exception('Group cannot be empty');
@@ -64,10 +74,15 @@ class Task extends Entity
         if (!is_numeric($value)) {
             throw new Exception('Group must be a number');
         }
+        if (!is_int($value)) {
+            throw new Exception('Group must be an integer between 1 and 4');
+        }
         if ($value < 1 || $value > 4) {
             throw new Exception('Group must be a number between 1 and 4');
         }
+
         $this->group = $value;
+
         return $this;
     }
 }
