@@ -14,4 +14,7 @@
             <directory>./tests/application</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <log type="coverage-clover" target="./build/logs/test-logs.xml" />
+    </logging>
 </phpunit>
