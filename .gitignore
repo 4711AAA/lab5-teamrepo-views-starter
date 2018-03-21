@@ -74,3 +74,4 @@ fabric.properties
 composer.lock
 
 tests/build
+tests/coverage
