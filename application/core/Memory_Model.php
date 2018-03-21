@@ -252,7 +252,6 @@ class Memory_Model extends Entity implements DataMapper
 	function truncate()
 	{
 		$this->data = array();
-		;
 	}
 
 }
