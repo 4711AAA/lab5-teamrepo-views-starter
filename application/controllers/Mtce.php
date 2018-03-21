@@ -110,7 +110,13 @@ class Mtce extends Application
     {
         $this->load->helper('form');
         $task = $this->session->userdata('task');
-        $this->data['id'] = $task->id;
+
+        // create temp data if making new task
+        if (!isset($task->task)) {
+            $task->task = "";
+        }
+
+        $this->data['id'] = (isset($task->id) ? $task->id : "");
 
         // if no errors, pass an empty message
         if ( ! isset($this->data['error']))
@@ -151,12 +157,14 @@ class Mtce extends Application
                 $task->id = $this->tasks->highest() + 1;
                 $this->tasks->add($task);
                 $this->alert('Task ' . $task->id . ' added', 'success');
-            } else
+            }
+            else
             {
                 $this->tasks->update($task);
                 $this->alert('Task ' . $task->id . ' updated', 'success');
             }
-        } else
+        }
+        else
         {
             $this->alert('<strong>Validation errors!<strong><br>' . validation_errors(), 'danger');
         }

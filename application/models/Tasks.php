@@ -80,23 +80,22 @@ class Tasks extends XML_Model
             $dataindex = 1;
             $first = true;
             foreach ($xmlcontent as $oj) {
-                if($first){
+                if ($first) {
                     foreach ($oj as $key => $value) {
                         $keyfieldh[] = $key;
-                        //var_dump((string)$value);
                     }
                     $this->_fields = $keyfieldh;
                 }
 
                 $first = false;
 
-                //var_dump($oj->attributes());
-                //var_dump($oj->children());
                 $one = new stdClass();
 
                 // gets the ID of the task
                 foreach ($oj->attributes() as $key => $value) {
-                    $one->$key = (string) $value;
+                    if ($key == 'id') {
+                        $one->$key = (string) $value;
+                    }
                 }
 
 
@@ -104,19 +103,51 @@ class Tasks extends XML_Model
                 foreach ($oj as $key => $value) {
                     if ($key == 'desc') {
                         $one->task = (string) $value;
-                    }
-                    else {
+                    } else {
                         $one->$key = (string) $value;
                     }
-
+                    // id
                 }
-                $this->_data[$dataindex++] =$one;
+                $this->_data[$one->id] = $one;
             }
-
-
-            //var_dump($this->_data);
         } else {
             exit('Failed to open the xml file.');
+        }
+    }
+
+    /**
+     * Store the collection state appropriately, depending on persistence choice.
+     * OVER-RIDE THIS METHOD in persistence choice implementations
+     */
+    protected function store()
+    {
+        if (($handle = fopen($this->_origin, "w")) !== FALSE)
+        {
+            $xmlDoc = new DOMDocument( "1.0");
+            $xmlDoc->preserveWhiteSpace = false;
+            $xmlDoc->formatOutput = true;
+            $data = $xmlDoc->createElement($this->xml->getName());
+            foreach($this->_data as $key => $value)
+            {
+                $task  = $xmlDoc->createElement($this->xml->children()->getName());
+                foreach ($value as $itemkey => $record ) {
+                    if ($itemkey == 'id') {
+                        $task->setAttribute('id', $record);
+                        continue;
+                    } else if ($itemkey == 'desc' || $itemkey == 'submit') {
+                        continue;
+                    } else if ($itemkey == 'task') {
+                        $item = $xmlDoc->createElement('desc', htmlspecialchars($record));
+                    } else {
+                        $item = $xmlDoc->createElement($itemkey, htmlspecialchars($record));
+                    }
+                    $task->appendChild($item);
+                }
+                $data->appendChild($task);
+            }
+            $xmlDoc->appendChild($data);
+            $xmlDoc->saveXML($xmlDoc);
+            $xmlDoc->save($this->_origin);
         }
     }
 }
